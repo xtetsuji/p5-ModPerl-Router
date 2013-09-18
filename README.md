@@ -1,28 +1,47 @@
-ModPerl-Router
-======================================
+# NAME
 
-#INSTALLATION
+ModPerl::Router - mod\_perl2 HTTP handler router system.
 
-To install this module type the following:
+# SYNOPSIS
 
-    perl Makefile.PL
-    make
-    make test
-    make install
+    use strict;
+    use warnings;
+    use Apache2::RequestRec  ();
+    use Apache2::RequestUtil ();
+    #use Apache2::Response    (); # if you need.
+    use ModPerl::Router; # import "head", "get", "put", "post", "del" methods.
 
-or using cpanm:
+    get '/user/:username' => sub {
+        my $r = shift;
+        my $match = $r->pnotes->get('match');
+        my $username = $match->{username};
+        ...;
+    };
 
-    git clone https://github.com/xtetsuji/p5-ModPerl-PSGI.git
-    cpanm p5-ModPerl-PSGI/
+    post '/user/' => sub {
+        my $r = shift;
+        ...;
+    };
 
-TODO: to create rpm and deb package.
+# METHODS
 
-#DEPENDENCIES
+## head, get, put, post, del
 
-See `cpanfile` or `Makefile.PL`.
+    head URL_PATTERN, THIS_HANDLER;
+    get  URL_PATTERN, THIS_HANDLER;
+    put  URL_PATTERN, THIS_HANDLER;
+    post URL_PATTERN, THIS_HANDLER;
+    del  URL_PATTERN, THIS_HANDLER;
 
-#COPYRIGHT AND LICENCE
+`URL_PATTERN` is [Router::Simple](http://search.cpan.org/perldoc?Router::Simple) syntax.
+
+`THIS_HANDLER` is handler that its pattern is matched.
+THIS\_HANDLER is non-named subroutine and given [Apache2::RequestRec](http://search.cpan.org/perldoc?Apache2::RequestRec)
+object as 1st argument.
+
+# COPYRIGHT AND LICENSE
 
 Copyright (C) 2013 by OGATA Tetsuji
 
-This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
