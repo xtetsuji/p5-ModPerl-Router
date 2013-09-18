@@ -20,17 +20,16 @@ sub import {
     no strict 'refs';
     *{"$callpkg\::handler"} = \&import_handler;
     ${"$callpkg\::ROUTER"}  = $router;
-    for my $method (qw(head get post put del any)) {
+    for my $method (qw(head get post put del)) {
         *{"$callpkg\::$method"} = sub {
             my ($url, $handler) = @_;
-            if ( $method ne 'any' ) {
-                $router->connect($url, { callback_handler => $handler }, { method => $method } );
-            }
-            else {
-                $router->connect($url, { callback_handler => $handler } );
-            }
+            $router->connect($url, { callback_handler => $handler }, { method => $method } );
         };
     }
+    *{"$callpkg\::any"} = sub {
+        my ($url, $handler) = @_;
+        $router->connect($url, { callback_handler => $handler } );
+    };
 }
 
 # called package's "handler" method.
