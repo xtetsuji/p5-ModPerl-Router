@@ -15,6 +15,7 @@ WriteMakefile(
         'Apache2::RequestRec'  => 0,
         'Apache2::RequestUtil' => 0,
         'Apache2::Const'       => 0,
+        'Router::Simple'       => 0,
     },
     PMLIBDIRS      => ["lib"],
     META_MERGE     => {
