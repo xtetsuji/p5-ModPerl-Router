@@ -44,6 +44,8 @@ sub import_handler : method {
         PATH_INFO      => $r->path_info,
         HTTP_REFERER   => scalar $r->headers_in->get('Referer'),
     };
+
+    # state $router ||= do {
     my $router = do {
         no strict 'refs';
         ${"$class\::ROUTER"};
